@@ -23,32 +23,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 function AdminDashboard() {
-    var [status, setstatus] = useState([])
-    var [getorder, setgetorder] = useState([])
+    // var [status, setstatus] = useState([])
+    var [orders, setorders] = useState([])
     useEffect(() => {
         axios({
             method: "get",
             url: "http://localhost:5000/getOrder",
             withCredentials: true,
         }).then((res) => {
-            console.log(res.data)
-            setgetorder(res.data)
+            console.log("zubair kakkakakak", res.data)
+            setorders(res.data)
         }).catch((error) => {
             console.log(error)
         })
     }, [])
-    useEffect(() => {
-        axios({
-            method: "get",
-            url: "http://localhost:5000/adminStatus",
-            withCredentials: true,
-        }).then((res) => {
-            setstatus(res.data.data)
-        }).catch((error) => {
-            console.log(error)
-        })
-    }, [])
-    function updateStatus(id) {
+    
+    function confirmStatus(id) {
         axios({
             method: 'post',
             url: 'http://localhost:5000/updateStatus',
@@ -63,135 +53,171 @@ function AdminDashboard() {
             console.log(err)
         })
     }
-    function del(id) {
+    function deliveredStatus(id) {
         axios({
             method: 'post',
-            url: 'http://localhost:5000/delete',
+            url: 'http://localhost:5000/updateStatus',
             data: {
-                id: id
+                id: id,
+                status: "Delivered"
             },
             withCredentials: true
-        }).then((res) => {
-            console.log(res.data)
-            alert(res.data)
-        }).catch((error) => {
-            console.log(error)
+        }).then((response) => {
+            alert(response.data)
+        }).catch((err) => {
+            console.log(err)
         })
     }
+    function reviewStatus(id) {
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/updateStatus',
+            data: {
+                id: id,
+                status: "In review"
+            },
+            withCredentials: true
+        }).then((response) => {
+            alert(response.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+    function cancelStatus(id) {
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/updateStatus',
+            data: {
+                id: id,
+                status: "Cancel"
+            },
+            withCredentials: true
+        }).then((response) => {
+            alert(response.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+    // function del(id) {
+    //     axios({
+    //         method: 'post',
+    //         url: 'http://localhost:5000/delete',
+    //         data: {
+    //             id: id
+    //         },
+    //         withCredentials: true
+    //     }).then((res) => {
+    //         console.log(res.data)
+    //         alert(res.data)
+    //     }).catch((error) => {
+    //         console.log(error)
+    //     })
+    // }
 
     const classes = useStyles();
-    // const [age, setAge] = React.useState('');
+    
 
 
 
-    console.log("order:", getorder)
+    console.log("order:", orders)
 
-    console.log("status:",status)
+    
 
     return (
         <div>
-
+            
             <div className="container">
                 <h2 className="text-center mt-5 mb-5">Customer orders</h2>
                 <div className="row justify-content-center ">
-                    {getorder.map((value, index) => {
-                        return (
-                            <div className='col-md-5 mr-2 ml-2 mt-4 py-3 px-3' style={{ boxShadow: "0 0 8px grey", borderRadius: '8px' }}>
-                                <div>
-                                    <span>Name:</span>
-                                    <span className="float-right">{value.name}</span>
-                                </div>
-                                <div>
-                                    <span>Address:</span>
-                                    <span className="float-right">{value.address}</span>
-                                </div>
-                                <div>
-                                    <span>Phone:</span>
-                                    <span className="float-right">{value.phone}</span>
-                                </div><hr />
-                                {value.orders.map((value, index) => {
-                                    return (
-                                        <div>
-
+                    {orders.map((eachOrder, index) => {
+                        if(eachOrder.status === "Order confirmed" || eachOrder.status === "In review"){
+                            return (
+                                <div className='col-md-5 mr-2 ml-2 mt-4 py-3 px-3' style={{ boxShadow: "0 0 8px grey", borderRadius: '8px' }}>
+                                    <div>
+                                        <span>Name:</span>
+                                        <span className="float-right">{eachOrder.name}</span>
+                                    </div>
+                                    <div>
+                                        <span>Address:</span>
+                                        <span className="float-right">{eachOrder.address}</span>
+                                    </div>
+                                    <div>
+                                        <span>Phone:</span>
+                                        <span className="float-right">{eachOrder.phone}</span>
+                                    </div><hr />
+                                    {eachOrder.orders.map((eachItem, index) => {
+                                        return (
                                             <div>
-                                                <span>Product Name:</span>
-                                                <span className="float-right">{value.product}</span>
+    
+                                                <div>
+                                                    <span>Product Name:</span>
+                                                    <span className="float-right">{eachItem.product}</span>
+                                                </div>
+                                                <div>
+                                                    <span> Cost:</span>
+                                                    <span className="float-right">Pkr per kg:{eachItem.price}</span>
+                                                </div>
+                                                <div>
+                                                    <span> Quantity:</span>
+                                                    <span className="float-right"> {eachItem.quantity}kg</span>
+                                                </div>
+                                                <hr />
+    
                                             </div>
-                                            <div>
-                                                <span> Cost:</span>
-                                                <span className="float-right">Pkr per kg:{value.price}</span>
-                                            </div>
-                                            <div>
-                                                <span> Quantity:</span>
-                                                <span className="float-right"> {value.quantity}kg</span>
-                                            </div>
-                                            <hr />
-
-                                        </div>
-                                    )
-                                })}
-                                <div>
-                                    <span>Total Cost:</span>
-                                    <span className="float-right">Pkr:{value.total}</span>
-                                </div> <hr />
-                                {/* <div > */}
-                                {/* <span className='float-right mt-2'>
-                                        <button className="btn btn-outline-success" onClick={() => {
-                                            updateStatus(value._id)
-                                        }} >Confirm Order</button>
-                                    </span>
-                                    <span className='float-left mt-2'>
-                                        <button className="btn btn-outline-success" onClick={() => {
-                                            del(value._id)
-                                        }} >Delete</button>
-                                    </span>
-                                </div> */}
-
-                                <div>
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="demo-simple-select-autowidth-label">Status</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-autowidth-label"
-                                            id="demo-simple-select-autowidth"
-
-                                            onChange={(event) => {
-                                                // setAge(event.target.value);
-                                                if (event.target.value === "ConfirmOrder") {
-                                                    updateStatus(value._id)
-                                                } else if (event.target.value === "Delete") {
-                                                    del(value._id)
-                                                }
-                                            }}
-                                            autoWidth
-                                        >
-                                            <MenuItem value="">
-                                                <em>None</em>
-                                            </MenuItem>
-                                            <MenuItem value="ConfirmOrder">Confirm Order</MenuItem>
-                                            <MenuItem value="Delete">delete</MenuItem>
-
-                                        </Select>
-                                        {status.map((v, i) => { 
-                                             return ( 
-                                                 <>
-                                                    <FormHelperText>Status : {v.status} </FormHelperText>
-                                                 </> 
-                                             )
-                                        })
-                                        } 
-                                    </FormControl>
-
-
+                                        )
+                                    })}
+                                    <div>
+                                        <span>Total Cost:</span>
+                                        <span className="float-right">Pkr:{eachOrder.total}</span>
+                                    </div> <hr />
+                                   
+                                    <div>
+                                        <FormControl className={classes.formControl}>
+                                            <InputLabel id="demo-simple-select-autowidth-label">Status</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-autowidth-label"
+                                                id="demo-simple-select-autowidth"
+                                                defaultValue={eachOrder.status}
+                                                onChange={(event) => {
+                                                    // setAge(event.target.value);
+                                                    if (event.target.value === "ConfirmOrder") {
+                                                        confirmStatus(eachOrder._id)
+                                                    } else if (event.target.value === "Delivered") {
+                                                        deliveredStatus(eachOrder._id)
+                                                    }else if (event.target.value === "Cancel") {
+                                                        cancelStatus(eachOrder._id)
+                                                    }else if (event.target.value === "InReview") {
+                                                        reviewStatus(eachOrder._id)
+                                                    }
+                                                }}
+                                                autoWidth
+                                            >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value="ConfirmOrder">Confirm Order</MenuItem>
+                                                <MenuItem value="Delivered">Delivered</MenuItem>
+                                                <MenuItem value="Cancel">Cancel</MenuItem>
+                                                <MenuItem value="InReview">In review</MenuItem>
+    
+                                            </Select>
+                                            <FormHelperText>Status :{eachOrder.status}</FormHelperText>
+                                            
+                                            
+                                        </FormControl>
+    
+    
+                                    </div>
                                 </div>
-                            </div>
-
-                        )
+    
+                            )
+                        }
 
                     })}
 
                 </div>
             </div>
-
+            
         </div>
 
     )

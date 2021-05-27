@@ -223,19 +223,6 @@ app.get("/getproducts", (req, res, next) => {
         }
     })
 })
-app.get("/adminStatus", (req, res, next) => {
-    itemOrderModel.find({}, (err, data) => {
-        console.log("status ka maal:",data)
-        if(data){
-            res.send({
-                data:data
-            })
-        }else{
-            res.send(err)
-        }
-    })
-})
-
 
 app.get("/myOrders", (req, res, next) => {
     foodModel.findOne({ email: req.body.jToken.email }, (err, user) => {
@@ -276,23 +263,7 @@ app.post('/updateStatus', (req, res, next) => {
         if (data) {
             data.updateOne({ status: req.body.status }, (error, update) => {
                 if (update) {
-                    res.send('status update')
-                } else {
-                    console.log(error)
-                }
-            })
-        } else {
-            res.send(err)
-        }
-    })
-})
-
-app.post('/delete', (req, res, next) => {
-    itemOrderModel.findById({ _id: req.body.id }, (err, data) => {
-        if (data) {
-            data.remove({}, (error, update) => {
-                if (update) {
-                    res.send('deleted')
+                    res.send('status updated')
                 } else {
                     console.log(error)
                 }
@@ -304,27 +275,13 @@ app.post('/delete', (req, res, next) => {
 })
 
 // app.post('/delete', (req, res, next) => {
-//     foodModel.findOne({ email: req.body.jToken.email }, (err, user) => {
-//         if (user) {
-//             itemOrderModel.findOne({ _id: req.body.id }, (err, data) => {
-//                 if (data) {
-//                     data.deleteOne({}, (err, del) => {
-//                         if (del) {
-//                             res.send({
-//                                 status: 200,
-//                                 message: "Deleted"
-//                             })
-//                         }
-//                         else {
-//                             res.send({
-//                                 message: "somrething went wrong"
-//                             })
-//                         }
-//                     })
+//     itemOrderModel.findById({ _id: req.body.id }, (err, data) => {
+//         if (data) {
+//             data.remove({}, (error, update) => {
+//                 if (update) {
+//                     res.send('deleted')
 //                 } else {
-//                     res.send({
-//                         message: "somrething went wrong"
-//                     })
+//                     console.log(error)
 //                 }
 //             })
 //         } else {
@@ -332,8 +289,6 @@ app.post('/delete', (req, res, next) => {
 //         }
 //     })
 // })
-
-
 
 app.post("/upload", upload.any(), (req, res, next) => {
 
