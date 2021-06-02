@@ -28,8 +28,13 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: theme.spacing(1)
+    paddingTop: theme.spacing(1),
+    palette: {
+      colorPrimary: {
+        default: "#EBD489"
+      },
 
+    }
   },
   
   title: {
@@ -41,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
   hov: {
     '&:hover': {
-      color: "white"
+      color: "white",
+      background:"#648813" 
     }
   },
   hov2: {
@@ -128,7 +134,7 @@ function Nav() {
       {
         (GlobaleState.loginStatus === true) ?
 
-          <AppBar position="static">
+          <AppBar position="static"style={{ background: '#D8BE07', color:"black" }}>
             <Toolbar className={classes.bar} >
               <IconButton
                 color="inherit"
@@ -160,7 +166,7 @@ function Nav() {
                 (GlobaleState.loginStatus === true && GlobaleState.role === "admin") ?
                   < >
                     <Typography variant="h6" className={classes.title}>
-                      Wellcome Admin
+                      Welcome Admin
                    </Typography>
                    <div className={classes.navItemDesk}>
                     <Button className={classes.hov} color="inherit" component={Link} to="/"  >Dashboard</Button>

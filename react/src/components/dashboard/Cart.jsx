@@ -124,7 +124,7 @@ export default function Cart({ cart, setCart }) {
       <h1>Cart</h1>
       {cart.length > 0 && (
         
-        <Button variant="outlined" color="primary" onClick={clearCart}>
+        <Button variant="outlined" style={{background:"#648813" , color:'white'}} onClick={clearCart}>
           Clear Cart
         </Button>
       )}
@@ -176,10 +176,12 @@ export default function Cart({ cart, setCart }) {
 
 
         </Grid><br />
-
-        <Button variant="outlined" color="primary" onClick={checkout}>
+          {cart.length > 0 && (
+        <Button variant="outlined" style={{background:"#648813" , color:'white'}} onClick={checkout}>
           Check Out
-        </Button><br />
+        </Button>
+        )}
+        <br />
       </Container>
 
 

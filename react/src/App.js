@@ -1,6 +1,6 @@
 // import react from "react";
 import Nav from "./components/nav/nav"
-
+import "./App.css"
 
 import Route from "./components/nav/route"
 import { GlobalStateProvider } from './context/globalContext'

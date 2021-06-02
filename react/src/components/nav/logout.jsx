@@ -3,10 +3,24 @@ import {useHistory} from 'react-router-dom'
 import axios from 'axios'
 import {useGlobalStateUpdate} from "../../context/globalContext"
 import Button from '@material-ui/core/Button';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    hov: {
+        '&:hover': {
+          color: "white",
+          background:"#648813" 
+        }
+      },
+  }));
+
+
+
 
 function Logout(){
     const GlobalStateUpdate = useGlobalStateUpdate()
     const history = useHistory()
+    const classes = useStyles();
     function logout(){
 
         axios({
@@ -27,7 +41,7 @@ function Logout(){
     return (
         <div>
             {/* <a className="text-success btn btn-outline-success mr-3 "  onClick={logout}>Logout<span className="sr-only">(current)</span></a> */}
-            <Button color="inherit" onClick={logout} >Log Out</Button>
+            <Button color="inherit" className={classes.hov} onClick={logout}  >Log Out</Button>
         </div>
     )
 }

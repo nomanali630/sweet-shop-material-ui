@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
     },
+    
   },
 }));
 
@@ -39,11 +40,11 @@ function Dashboard() {
     <div className="App">
       <header>
         <div className={classes.root}>
-          <Button onClick={() => navigateTo(PAGE_CART)} variant="outlined"  >
+          <Button onClick={() => navigateTo(PAGE_CART)} variant="outlined" style={{background:"#648813" , color:'white'}} >
             Go to Cart ({getCartTotal()})
           </Button>
 
-          <Button onClick={() => navigateTo(PAGE_PRODUCTS)} variant="outlined" >
+          <Button onClick={() => navigateTo(PAGE_PRODUCTS)} variant="outlined" style={{background:"#648813" , color:'white'}} >
             View Products
           </Button>
         </div>

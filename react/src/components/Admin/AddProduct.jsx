@@ -71,7 +71,14 @@ function AddProduct() {
         },
         submit: {
             margin: theme.spacing(3, 0, 2),
+            background:"#648813",
+            '&:hover': {
+                  backgroundColor: '#648813',
+                },
+              
+    
         },
+      
         suc: {
             width: '100%',
             '& > * + *': {
@@ -81,7 +88,9 @@ function AddProduct() {
         btn:{
             border:'solid 1px black',
             padding: '5px',
-            marginLeft:'10px'
+            marginLeft:'10px',
+            background:"#648813",
+            color:"white"
         }
 
     }));

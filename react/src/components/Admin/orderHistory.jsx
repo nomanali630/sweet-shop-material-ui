@@ -104,7 +104,7 @@ function OrderHistory() {
     return (
         <div>
             <div className="container">
-                <h2 className="text-center mt-5 mb-5">Confirmed orders</h2>
+                <h2 className="text-center mt-5 mb-5">Orders History</h2>
                 <div className="row justify-content-center ">
                     {orderHistory.map((eachHistory, index) => {
                         if (eachHistory.status === "Cancel" || eachHistory.status === "Delivered") {
